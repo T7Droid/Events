@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.databinding.FragmentEventDetailBinding
 import co.thyagoneves.eventnews.model.EventsListItem
-import co.thyagoneves.eventnews.repositories.EventsRepository
 import co.thyagoneves.eventnews.rest.RetrofitService
 import co.thyagoneves.eventnews.viewmodels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint

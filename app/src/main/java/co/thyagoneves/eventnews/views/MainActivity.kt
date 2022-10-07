@@ -2,7 +2,6 @@ package co.thyagoneves.eventnews.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.fragment.NavHostFragment
 import co.thyagoneves.eventnews.R
 import dagger.hilt.android.AndroidEntryPoint
 
