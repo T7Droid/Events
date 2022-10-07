@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.thyagoneves.eventnews.databinding.ItemViewBindingBinding
 import co.thyagoneves.eventnews.model.EventsListItem
 import co.thyagoneves.eventnews.utils.formatCurrency
+import co.thyagoneves.eventnews.utils.openGoogleMapsWithLatLong
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,12 +58,10 @@ class EventsAdapter(private val context: Context, private val onItemClicked: (Ev
             val price = "Preço: ${formatCurrency(eventItem.price)}"
             binding.tvPrice.text = price
             binding.tvFindPlace.setOnClickListener {
-                val gmmIntentUri = Uri.parse("geo:${eventItem.latitude},${eventItem.longitude}")
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                if (mapIntent.resolveActivity(context.packageManager) != null) {
-                    context.startActivity(mapIntent)
-                }
+                eventItem.latitude?.let { longitude -> eventItem.longitude?.let { latitude ->
+                    openGoogleMapsWithLatLong(longitude,
+                        latitude, context)
+                } }
             }
             itemView.setOnClickListener {
                 onItemClicked(eventItem)

@@ -30,8 +30,62 @@
         android:textColor="#000000"
         android:textStyle="italic"
         android:textSize= "16sp"
-        android:text="Pessoas: -"/>
+        android:text="Quem estará presente: -"/>
 
+    <TextView
+        android:id="@+id/tv_checkin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_people"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize= "16sp"
+        android:text="Preencha seus dados para fazer o check-in:"/>
 
+    <EditText
+        android:id="@+id/et_nome"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="25dp"
+        android:paddingLeft="15dp"
+        android:hint="Nome"
+        android:inputType="text"
+        android:maxLength="30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/layout_bg"
+        app:layout_constraintTop_toBottomOf="@id/tv_checkin" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="25dp"
+        android:paddingLeft="15dp"
+        android:hint="Email"
+        android:inputType="textWebEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/layout_bg"
+        app:layout_constraintTop_toBottomOf="@id/et_nome" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_checkin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Fazer check in"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="#d3d3d3"
+        android:enabled="false"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
