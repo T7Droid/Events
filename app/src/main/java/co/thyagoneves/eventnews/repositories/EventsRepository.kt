@@ -10,6 +10,6 @@ class EventsRepository @Inject constructor(private val retrofitService: Retrofit
 
    override fun getAllEvents() = retrofitService.getAllEvents()
 
-   override fun doCheckin(person: Person): Call<ResponseBody>  = retrofitService.doCheckIn(person)
+   override fun doCheckIn(person: Person): Call<ResponseBody>  = retrofitService.doCheckIn(person)
 
 }

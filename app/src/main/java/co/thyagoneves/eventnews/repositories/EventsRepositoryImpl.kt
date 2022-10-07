@@ -9,5 +9,5 @@ interface EventsRepositoryImpl {
 
     fun getAllEvents(): Call<EventsList>
 
-    fun doCheckin(person: Person): Call<ResponseBody>
+    fun doCheckIn(person: Person): Call<ResponseBody>
 }
