@@ -3,9 +3,6 @@ package co.thyagoneves.eventnews.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-
 
 fun openGoogleMapsWithLatLong(latitude: Double, longitude: Double, context: Context) {
     val gmmIntentUri = Uri.parse("geo:$latitude,$longitude")
