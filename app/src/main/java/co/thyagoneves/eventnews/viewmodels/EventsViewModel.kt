@@ -11,6 +11,7 @@ import java.net.HttpURLConnection
 
 class EventsViewModel constructor(private val repository: EventsRepository) : ViewModel(){
     val status = MutableLiveData<Boolean>()
+    val eventsList = MutableLiveData<EventsList>()
 
     fun getAllEvents() {
 
@@ -20,6 +21,7 @@ class EventsViewModel constructor(private val repository: EventsRepository) : Vi
                 override fun onResponse(call: Call<EventsList>, response: Response<EventsList>) {
                     if(response.code() == HttpURLConnection.HTTP_OK) {
                         status.postValue(true)
+                        eventsList.postValue(response.body())
                     } else {
                         status.postValue(false)
                     }
@@ -27,6 +29,7 @@ class EventsViewModel constructor(private val repository: EventsRepository) : Vi
 
                 override fun onFailure(call: Call<EventsList>, t: Throwable) {
                   status.postValue(false)
+
                 }
             }
         )

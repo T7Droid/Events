@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.R
+import co.thyagoneves.eventnews.adapters.EventsAdapter
 import co.thyagoneves.eventnews.databinding.FragmentEventsListBinding
+import co.thyagoneves.eventnews.model.EventsListItem
 import co.thyagoneves.eventnews.repositories.EventsRepository
 import co.thyagoneves.eventnews.rest.RetrofitService
 import co.thyagoneves.eventnews.viewmodels.EventsViewModel
@@ -26,6 +29,7 @@ class EventsListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: EventsViewModel
     private val retrofitService = RetrofitService.getInstance()
+    private lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +51,23 @@ class EventsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, EventsViewModelFactory(EventsRepository(retrofitService))).get(EventsViewModel::class.java)
-
-        binding.btnNav.setOnClickListener {
-            findNavController().navigate(R.id.eventDetailFragment, bundleOf("ouro" to "ouro"))
+        eventsAdapter = EventsAdapter { eventItem ->
+            openDetailScreen(eventItem)
         }
+
+        binding.rvEvents.apply {
+            hasFixedSize()
+            adapter = eventsAdapter
+        }
+
+        viewModel = ViewModelProvider(this, EventsViewModelFactory(EventsRepository(retrofitService))).get(EventsViewModel::class.java)
+        viewModel.eventsList.observe(viewLifecycleOwner){
+            eventsAdapter.setData(it)
+        }
+    }
+
+    private fun openDetailScreen(event: EventsListItem){
+        findNavController().navigate(R.id.eventDetailFragment, bundleOf("event" to event))
     }
 
     override fun onResume() {

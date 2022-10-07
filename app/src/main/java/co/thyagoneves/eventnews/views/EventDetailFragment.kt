@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.databinding.FragmentEventDetailBinding
+import co.thyagoneves.eventnews.model.EventsListItem
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val EVENT= "event"
 
 class EventDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private var event: EventsListItem? = null
     private var _binding: FragmentEventDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -22,6 +25,7 @@ class EventDetailFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+            event = it.getSerializable(EVENT) as EventsListItem
         }
     }
 
@@ -36,8 +40,12 @@ class EventDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.voltar.setOnClickListener {
-            findNavController().popBackStack()
+
+        binding.tvDetailTitle.text = event?.title
+        if (event?.people?.size!! > 0) {
+            binding.tvPeople.text = "Pessoas: ${event?.people.toString()}"
+        } else {
+            binding.tvPeople.text = "Pessoas: Nenhuma por enquanto."
         }
     }
 

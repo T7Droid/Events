@@ -1,3 +1,5 @@
 package co.thyagoneves.eventnews.model
 
-class EventsList : ArrayList<EventsListItem>()
+import java.io.Serializable
+
+class EventsList : ArrayList<EventsListItem>(), Serializable
