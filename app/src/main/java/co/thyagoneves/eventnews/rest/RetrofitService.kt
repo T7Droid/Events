@@ -19,18 +19,4 @@ interface RetrofitService {
     @POST("checkin")
     fun doCheckIn(@Body person: Person): Call<ResponseBody>
 
-    companion object {
-
-        private val retrofitService by lazy {
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://5f5a8f24d44d640016169133.mockapi.io/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            retrofit.create(RetrofitService::class.java)
-        }
-        fun getInstance(): RetrofitService {
-            return retrofitService
-        }
-    }
 }

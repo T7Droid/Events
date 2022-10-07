@@ -28,7 +28,7 @@ class EventsListFragment : Fragment() {
     private var _binding: FragmentEventsListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: EventsViewModel by viewModels()
-    @Inject lateinit var retrofitService: RetrofitService //= RetrofitService.getInstance()
+    @Inject lateinit var retrofitService: RetrofitService
     private lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.databinding.FragmentEventDetailBinding
@@ -17,6 +18,7 @@ import co.thyagoneves.eventnews.repositories.EventsRepository
 import co.thyagoneves.eventnews.rest.RetrofitService
 import co.thyagoneves.eventnews.viewmodels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -29,8 +31,9 @@ class EventDetailFragment : Fragment() {
     private var event: EventsListItem? = null
     private var _binding: FragmentEventDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: EventsViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val viewModel: EventsViewModel by viewModels()
+    @Inject
+    lateinit var retrofitService: RetrofitService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
