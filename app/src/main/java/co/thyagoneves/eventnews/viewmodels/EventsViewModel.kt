@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModel
 import co.thyagoneves.eventnews.model.EventsList
 import co.thyagoneves.eventnews.model.Person
 import co.thyagoneves.eventnews.repositories.EventsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection
+import javax.inject.Inject
 
-class EventsViewModel constructor(private val repository: EventsRepository) : ViewModel(){
+@HiltViewModel
+class EventsViewModel @Inject constructor(private val repository: EventsRepository) : ViewModel(){
     val checkInSucessful = MutableLiveData<Boolean>()
     val eventsList = MutableLiveData<EventsList>()
 

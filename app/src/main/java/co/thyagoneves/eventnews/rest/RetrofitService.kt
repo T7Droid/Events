@@ -2,6 +2,7 @@ package co.thyagoneves.eventnews.rest
 
 import co.thyagoneves.eventnews.model.EventsList
 import co.thyagoneves.eventnews.model.Person
+import dagger.Provides
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit

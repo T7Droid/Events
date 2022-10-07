@@ -6,28 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.R
 import co.thyagoneves.eventnews.adapters.EventsAdapter
 import co.thyagoneves.eventnews.databinding.FragmentEventsListBinding
 import co.thyagoneves.eventnews.model.EventsListItem
-import co.thyagoneves.eventnews.repositories.EventsRepository
 import co.thyagoneves.eventnews.rest.RetrofitService
 import co.thyagoneves.eventnews.viewmodels.EventsViewModel
-import co.thyagoneves.eventnews.viewmodels.EventsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+@AndroidEntryPoint
 class EventsListFragment : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentEventsListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: EventsViewModel
-    private val retrofitService = RetrofitService.getInstance()
+    private val viewModel: EventsViewModel by viewModels()
+    @Inject lateinit var retrofitService: RetrofitService //= RetrofitService.getInstance()
     private lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,6 @@ class EventsListFragment : Fragment() {
             adapter = eventsAdapter
         }
 
-        viewModel = ViewModelProvider(this, EventsViewModelFactory(EventsRepository(retrofitService)))[EventsViewModel::class.java]
         viewModel.eventsList.observe(viewLifecycleOwner){
             eventsAdapter.setData(it)
         }

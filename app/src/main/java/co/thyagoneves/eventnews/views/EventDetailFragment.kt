@@ -16,12 +16,13 @@ import co.thyagoneves.eventnews.model.EventsListItem
 import co.thyagoneves.eventnews.repositories.EventsRepository
 import co.thyagoneves.eventnews.rest.RetrofitService
 import co.thyagoneves.eventnews.viewmodels.EventsViewModel
-import co.thyagoneves.eventnews.viewmodels.EventsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val EVENT = "event"
 
+@AndroidEntryPoint
 class EventDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
@@ -51,10 +52,6 @@ class EventDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            this,
-            EventsViewModelFactory(EventsRepository(retrofitService))
-        )[EventsViewModel::class.java]
         viewModel.checkInSucessful.observe(viewLifecycleOwner) {
             if(it){
                 binding.progressBar.visibility = View.INVISIBLE
