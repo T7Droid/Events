@@ -1,18 +1,21 @@
 package co.thyagoneves.eventnews.adapters
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import co.thyagoneves.eventnews.databinding.ItemViewBindingBinding
 import co.thyagoneves.eventnews.model.EventsListItem
 import co.thyagoneves.eventnews.utils.formatCurrency
 import com.bumptech.glide.Glide
-import java.math.BigDecimal
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventsAdapter(private val onItemClicked: (EventsListItem) -> Unit) :
+
+class EventsAdapter(private val context: Context, private val onItemClicked: (EventsListItem) -> Unit) :
     RecyclerView.Adapter<EventsAdapter.EventsViewHolder>() {
 
     private var events = mutableListOf<EventsListItem>()
@@ -25,7 +28,7 @@ class EventsAdapter(private val onItemClicked: (EventsListItem) -> Unit) :
 
     override fun onBindViewHolder(holder: EventsViewHolder, position: Int) {
         val event = events[position]
-        holder.bind(event, onItemClicked)
+        holder.bind(event, onItemClicked, context)
     }
 
     override fun getItemCount(): Int {
@@ -40,7 +43,11 @@ class EventsAdapter(private val onItemClicked: (EventsListItem) -> Unit) :
     class EventsViewHolder(val binding: ItemViewBindingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(eventItem: EventsListItem, onItemClicked: (EventsListItem) -> Unit) {
+        fun bind(
+            eventItem: EventsListItem,
+            onItemClicked: (EventsListItem) -> Unit,
+            context: Context
+        ) {
             binding.tvTitle.text = eventItem.title
             val formatter = SimpleDateFormat("dd/MM/yyyy");
             val dateString = "Data: ${formatter.format(Date(eventItem.date))}"
@@ -49,7 +56,14 @@ class EventsAdapter(private val onItemClicked: (EventsListItem) -> Unit) :
             binding.tvDescription.text = eventItem.description
             val price = "Preço: ${formatCurrency(eventItem.price)}"
             binding.tvPrice.text = price
-
+            binding.tvFindPlace.setOnClickListener {
+                val gmmIntentUri = Uri.parse("geo:${eventItem.latitude},${eventItem.longitude}")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                if (mapIntent.resolveActivity(context.packageManager) != null) {
+                    context.startActivity(mapIntent)
+                }
+            }
             itemView.setOnClickListener {
                 onItemClicked(eventItem)
             }

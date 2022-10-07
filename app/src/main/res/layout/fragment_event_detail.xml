@@ -30,6 +30,8 @@
         android:textColor="#000000"
         android:textStyle="italic"
         android:textSize= "16sp"
-        android:text="Descrição"/>
+        android:text="Pessoas: -"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -42,7 +41,7 @@ class EventsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEventsListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -51,7 +50,7 @@ class EventsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        eventsAdapter = EventsAdapter { eventItem ->
+        eventsAdapter = EventsAdapter (requireActivity()){ eventItem ->
             openDetailScreen(eventItem)
         }
 
@@ -60,7 +59,7 @@ class EventsListFragment : Fragment() {
             adapter = eventsAdapter
         }
 
-        viewModel = ViewModelProvider(this, EventsViewModelFactory(EventsRepository(retrofitService))).get(EventsViewModel::class.java)
+        viewModel = ViewModelProvider(this, EventsViewModelFactory(EventsRepository(retrofitService)))[EventsViewModel::class.java]
         viewModel.eventsList.observe(viewLifecycleOwner){
             eventsAdapter.setData(it)
         }
