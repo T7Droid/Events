@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import co.thyagoneves.eventnews.databinding.FragmentEventDetailBinding
 import co.thyagoneves.eventnews.model.EventsListItem
 import co.thyagoneves.eventnews.repositories.EventsRepository
@@ -44,8 +45,7 @@ class EventDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEventDetailBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +56,21 @@ class EventDetailFragment : Fragment() {
             EventsViewModelFactory(EventsRepository(retrofitService))
         )[EventsViewModel::class.java]
         viewModel.checkInSucessful.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Checkin realizado com sucesso!", Toast.LENGTH_SHORT)
-                .show()
+            if(it){
+                binding.progressBar.visibility = View.INVISIBLE
+                binding.btnCheckin.text = "Check-in realizado com sucesso!"
+                binding.btnCheckin.isEnabled = true
+                binding.btnCheckin.setBackgroundColor(Color.parseColor("#228B22"))
+                binding.btnCheckin.setTextColor(Color.parseColor("#FFFFFF"))
+                Toast.makeText(requireContext(), "Checkin realizado com sucesso!", Toast.LENGTH_SHORT)
+                    .show()
+                binding.btnCheckin.setOnClickListener {
+                    findNavController().popBackStack()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Falha ao realizar o check in", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
 
         binding.tvDetailTitle.text = event?.title
@@ -68,19 +81,15 @@ class EventDetailFragment : Fragment() {
         }
 
         binding.etNome.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotBlank() && p0.toString()
                         .isNotEmpty() && binding.etEmail.text.isNotEmpty() && binding.etEmail.text.isNotBlank()
                 ) {
-                    binding.btnCheckin.setBackgroundColor(Color.parseColor("#228B22"))
+                    binding.btnCheckin.setBackgroundColor(Color.parseColor("#24A0ED"))
                     binding.btnCheckin.setTextColor(Color.parseColor("#FFFFFF"))
                     binding.btnCheckin.isEnabled = true
                 } else {
@@ -92,19 +101,15 @@ class EventDetailFragment : Fragment() {
         })
 
         binding.etEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotBlank() && p0.toString()
                         .isNotEmpty() && binding.etNome.text.isNotEmpty() && binding.etNome.text.isNotBlank()
                 ) {
-                    binding.btnCheckin.setBackgroundColor(Color.parseColor("#228B22"))
+                    binding.btnCheckin.setBackgroundColor(Color.parseColor("#24A0ED"))
                     binding.btnCheckin.setTextColor(Color.parseColor("#FFFFFF"))
                     binding.btnCheckin.isEnabled = true
                 } else {
@@ -116,6 +121,8 @@ class EventDetailFragment : Fragment() {
         })
 
         binding.btnCheckin.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnCheckin.isEnabled = false
             viewModel.doCheckIn(
                 event!!.id,
                 binding.etNome.text.toString(),

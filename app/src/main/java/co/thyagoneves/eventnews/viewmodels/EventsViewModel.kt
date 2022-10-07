@@ -44,11 +44,13 @@ class EventsViewModel constructor(private val repository: EventsRepository) : Vi
                 ) {
                     if(response.isSuccessful){
                         checkInSucessful.postValue(true)
+                    } else {
+                        checkInSucessful.postValue(false)
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
+                    checkInSucessful.postValue(false)
                 }
             }
         )
